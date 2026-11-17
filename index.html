@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doak Software Development</title>
+<meta name="description" content="Doak Software Development builds websites, web apps and tooling for small businesses.">
+<meta property="og:title" content="Doak Software Development">
+<meta property="og:description" content="Websites, web apps and tooling for small businesses. Toronto, ON.">
+<meta property="og:url" content="https://doaksoftware.ca">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23163a2e'/%3E%3Ctext x='16' y='22.5' font-family='monospace' font-size='18' font-weight='700' fill='%23e9b44c' text-anchor='middle'%3Ed%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f3ec;
+    --surface: #fffdf8;
+    --ink: #17201c;
+    --muted: #5b6660;
+    --line: #ddd6c8;
+    --accent: #163a2e;
+    --accent-ink: #f6f3ec;
+    --gold: #b7791f;
+    --radius: 14px;
+    --max: 1080px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101613;
+      --surface: #161e1a;
+      --ink: #ece8df;
+      --muted: #9ba79f;
+      --line: #2a3530;
+      --accent: #e9b44c;
+      --accent-ink: #101613;
+      --gold: #e9b44c;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 17px/1.6 "IBM Plex Sans", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+
+  /* Header */
+  header { border-bottom: 1px solid var(--line); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; letter-spacing: -0.01em; }
+  .mark {
+    width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center;
+    background: var(--accent); color: var(--accent-ink);
+    font: 600 17px/1 "IBM Plex Mono", monospace;
+  }
+  .nav ul { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; font-size: 15px; }
+  .nav ul a { text-decoration: none; color: var(--muted); }
+  .nav ul a:hover { color: var(--ink); }
+  @media (max-width: 640px) { .nav ul { display: none; } }
+
+  /* Hero */
+  .hero { padding: 88px 0 72px; }
+  .eyebrow {
+    font: 500 13px/1 "IBM Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gold); margin: 0 0 20px;
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 650; font-optical-sizing: auto;
+    font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 1.05; letter-spacing: -0.025em;
+    margin: 0 0 24px; max-width: 16ch;
+  }
+  .lede { font-size: 1.2rem; color: var(--muted); max-width: 56ch; margin: 0 0 36px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px;
+    font-weight: 500; font-size: 16px; text-decoration: none; border: 1px solid var(--line);
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn.ghost:hover { background: var(--surface); }
+
+  /* Sections */
+  section { padding: 72px 0; border-top: 1px solid var(--line); }
+  h2 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: clamp(1.7rem, 3.5vw, 2.3rem);
+    letter-spacing: -0.015em; margin: 0 0 12px;
+  }
+  .section-intro { color: var(--muted); max-width: 60ch; margin: 0 0 40px; }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 26px; display: flex; flex-direction: column;
+  }
+  .card .num { font: 500 13px/1 "IBM Plex Mono", monospace; color: var(--gold); margin-bottom: 14px; }
+  .card h3 { margin: 0 0 8px; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+  .card p { margin: 0; color: var(--muted); font-size: 15.5px; }
+
+  .work .card { min-height: 220px; }
+  .tag {
+    display: inline-block; font: 500 12px/1 "IBM Plex Mono", monospace; letter-spacing: 0.04em;
+    padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted);
+    margin-bottom: 16px; align-self: flex-start;
+  }
+  .card .link { margin-top: auto; padding-top: 20px; font-weight: 500; font-size: 15px; text-decoration: none; color: var(--gold); }
+  .card .link:hover { text-decoration: underline; }
+
+  /* About */
+  .about { display: grid; gap: 40px; grid-template-columns: 1.3fr 1fr; align-items: start; }
+  @media (max-width: 800px) { .about { grid-template-columns: 1fr; } }
+  .about p { margin: 0 0 16px; }
+  .facts { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .facts li { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; }
+  .facts span:first-child { color: var(--muted); }
+  .facts span:last-child { text-align: right; }
+
+  /* Contact */
+  .contact { text-align: left; }
+  .contact .email {
+    font-family: "Fraunces", Georgia, serif; font-size: clamp(1.5rem, 4.5vw, 2.6rem); font-weight: 500;
+    text-decoration: none; border-bottom: 2px solid var(--gold); word-break: break-word;
+  }
+  .socials { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+  .socials a {
+    display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 999px;
+    border: 1px solid var(--line); text-decoration: none; font-weight: 500; font-size: 15px;
+    background: var(--surface);
+  }
+  .socials a:hover { border-color: var(--gold); }
+  .socials svg { width: 14px; height: 14px; }
+
+  footer { padding: 32px 0 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Doak Software Development home">
+      <span class="mark" aria-hidden="true">d</span>
+      Doak Software
+    </a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <p class="eyebrow">Toronto, ON &middot; Software development</p>
+    <h1>Websites and software services.</h1>
+    <p class="lede">Doak Software Development builds websites, web apps and tooling for small businesses. Work with an experienced developer from the first call to launch day and after.</p>
+    <div class="actions">
+      <a class="btn primary" href="mailto:doakwest@hotmail.com">Start a project</a>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <h2>About</h2>
+        <p>I'm Aaron Doak West, a software developer with ten years of experience building cloud web services and operations tooling.</p>
+        <p>Doak Software brings the experience of startups and big tech to your project. You get transparency into the project and a dedicated developer to support you long term.</p>
+      </div>
+      <ul class="facts">
+        <li><span>Based in</span><span>Toronto, ON</span></li>
+        <li><span>Works with</span><span>Clients in the GTA and remote</span></li>
+        <li><span>Experience</span><span>10 years, backend &amp; cloud</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2>Let's talk about your project</h2>
+      <p class="section-intro">Tell me what you need and I'll reply within one business day.</p>
+      <a class="email" href="mailto:doakwest@hotmail.com">doakwest@hotmail.com</a>
+      <div class="socials">
+        <a href="https://github.com/DoakWest" target="_blank" rel="noopener">GitHub
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+        <a href="https://www.linkedin.com/in/aaron-west-81483234/" target="_blank" rel="noopener">LinkedIn
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+        <a href="https://open.spotify.com/user/ammobear" target="_blank" rel="noopener">Spotify
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="yr">2026</span> Doak Software Development &middot; Toronto, Ontario</span>
+    <span>doaksoftware.ca</span>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
