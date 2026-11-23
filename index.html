@@ -127,6 +127,12 @@
     font-family: "Fraunces", Georgia, serif; font-size: clamp(1.5rem, 4.5vw, 2.6rem); font-weight: 500;
     text-decoration: none; border-bottom: 2px solid var(--gold); word-break: break-word;
   }
+  .contact-grid { display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: center; }
+  .contact-photo {
+    width: 200px; height: 200px; border-radius: var(--radius); object-fit: cover; object-position: 50% 40%; display: block;
+    border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--line);
+  }
+  @media (max-width: 640px) { .contact-grid { grid-template-columns: 1fr; gap: 24px; } .contact-photo { width: 128px; height: 128px; } }
   .socials { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
   .socials a {
     display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 999px;
@@ -153,7 +159,7 @@
     </a>
     <ul>
       <li><a href="#about">About</a></li>
-      <li><a href="/Aaron_West_Resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+      <li><a href="/Files/Aaron_West_Resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -172,7 +178,7 @@
         <p>I'm Aaron Doak West, a software developer with ten years of experience building cloud web services and operations tooling.</p>
         <p>Doak Software brings the experience of startups and big tech to your project. You get transparency into the project and a dedicated developer to support you long term.</p>
         <div class="actions">
-          <a class="btn ghost" href="/Aaron_West_Resume.pdf" target="_blank" rel="noopener">View résumé (PDF)</a>
+          <a class="btn ghost" href="/Files/Aaron_West_Resume.pdf" target="_blank" rel="noopener">View résumé (PDF)</a>
         </div>
       </div>
       <ul class="facts">
@@ -184,7 +190,9 @@
   </section>
 
   <section id="contact" class="contact">
-    <div class="wrap">
+    <div class="wrap contact-grid">
+      <img class="contact-photo" src="./Files/Images/profile.jpg" alt="Aaron West" width="200" height="200" loading="lazy">
+      <div>
       <h2>Let's talk about your project</h2>
       <p class="section-intro">Tell me what you need and I'll reply within one business day.</p>
       <a class="email" href="mailto:doakwest@hotmail.com">doakwest@hotmail.com</a>
@@ -195,6 +203,7 @@
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
         <a href="https://open.spotify.com/user/ammobear" target="_blank" rel="noopener">Spotify
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+      </div>
       </div>
     </div>
   </section>
