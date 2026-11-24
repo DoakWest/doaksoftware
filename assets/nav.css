@@ -1,0 +1,31 @@
+/* Shared site navigation: Home + Projects dropdown. Uses each page's CSS variables. */
+.site-nav > ul { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; font-size: 15px; }
+.site-nav a, .site-nav summary { color: var(--muted); text-decoration: none; }
+.site-nav > ul > li > a,
+.site-nav summary {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; cursor: pointer;
+}
+.site-nav > ul > li > a:hover, .site-nav summary:hover,
+.site-nav [aria-current="page"], .site-nav details[open] summary,
+.site-nav .menu.current summary { color: var(--ink); }
+.site-nav [aria-current="page"], .site-nav .menu.current summary { font-weight: 500; }
+
+.site-nav .menu { position: relative; }
+.site-nav summary { list-style: none; user-select: none; }
+.site-nav summary::-webkit-details-marker { display: none; }
+.site-nav summary svg { width: 10px; height: 10px; transition: transform .15s ease; }
+.site-nav details[open] summary svg { transform: rotate(180deg); }
+
+.site-nav .menu-panel {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; min-width: 260px;
+  list-style: none; margin: 0; padding: 6px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--radius, 14px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
+}
+.site-nav .menu-panel a { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 10px; }
+.site-nav .menu-panel a:hover, .site-nav .menu-panel a:focus-visible { background: var(--bg); }
+.site-nav .menu-title { color: var(--ink); font-weight: 500; }
+.site-nav .menu-desc { color: var(--muted); font-size: 13.5px; }
+.site-nav .menu-panel a[aria-current="page"] .menu-title { color: var(--gold); }
+
+@media (prefers-reduced-motion: reduce) { .site-nav summary svg { transition: none; } }

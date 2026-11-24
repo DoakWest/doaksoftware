@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Birding · Doak Software</title>
+<meta name="description" content="Bird photography by Aaron West, grouped by family.">
+<meta property="og:title" content="Birding · Doak Software">
+<meta property="og:description" content="Bird photography by Aaron West, grouped by family.">
+<meta property="og:url" content="https://doaksoftware.ca/birding">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23163a2e'/%3E%3Ctext x='16' y='22.5' font-family='monospace' font-size='18' font-weight='700' fill='%23e9b44c' text-anchor='middle'%3Ed%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,650;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/nav.css">
+<style>
+  :root {
+    --bg: #f6f3ec;
+    --surface: #fffdf8;
+    --ink: #17201c;
+    --muted: #5b6660;
+    --line: #ddd6c8;
+    --accent: #163a2e;
+    --accent-ink: #f6f3ec;
+    --gold: #b7791f;
+    --skeleton: #ebe5d8;
+    --radius: 14px;
+    --max: 1080px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101613;
+      --surface: #161e1a;
+      --ink: #ece8df;
+      --muted: #9ba79f;
+      --line: #2a3530;
+      --accent: #e9b44c;
+      --accent-ink: #101613;
+      --gold: #e9b44c;
+      --skeleton: #1d2722;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 400 17px/1.6 "IBM Plex Sans", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+
+  header { border-bottom: 1px solid var(--line); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; letter-spacing: -0.01em; }
+  .mark {
+    width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center;
+    background: var(--accent); color: var(--accent-ink); font: 600 17px/1 "IBM Plex Mono", monospace;
+  }
+
+  .hero { padding-top: 80px; padding-bottom: 40px; }
+  .eyebrow {
+    font: 500 13px/1 "IBM Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gold); margin: 0 0 20px;
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 650; font-optical-sizing: auto;
+    font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.05; letter-spacing: -0.025em;
+    margin: 0 0 24px; max-width: 16ch;
+  }
+  .lede { font-size: 1.15rem; color: var(--muted); max-width: 58ch; margin: 0 0 28px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 28px; margin: 0; padding: 0; list-style: none; }
+  .stats li { display: flex; flex-direction: column; }
+  .stats b { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 1.9rem; line-height: 1.1; }
+  .stats span { font: 500 12px/1.4 "IBM Plex Mono", monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+  /* Toolbar */
+  .toolbar {
+    position: sticky; top: 0; z-index: 5; background: var(--bg);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .toolbar .wrap { display: flex; gap: 12px; align-items: center; padding-top: 12px; padding-bottom: 12px; }
+  .search {
+    flex: 0 0 220px; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink); font: inherit; font-size: 15px;
+  }
+  .search::placeholder { color: var(--muted); }
+  .chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: none; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line);
+    background: transparent; color: var(--muted); font: 500 14px/1.2 "IBM Plex Sans", sans-serif; cursor: pointer;
+  }
+  .chip:hover { color: var(--ink); border-color: var(--gold); }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  @media (max-width: 640px) {
+    .toolbar .wrap { flex-direction: column; align-items: stretch; }
+    .search { flex: none; }
+  }
+
+  /* Families */
+  .family { padding: 56px 0 8px; scroll-margin-top: 70px; }
+  .family-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+  .family h2 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: -0.015em; margin: 0;
+  }
+  .family .latin { font: 500 13px/1 "IBM Plex Mono", monospace; letter-spacing: 0.04em; color: var(--gold); }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .bird {
+    display: flex; flex-direction: column; text-align: left; padding: 0; overflow: hidden;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    color: inherit; font: inherit; cursor: zoom-in; transition: transform .15s ease, border-color .15s ease;
+  }
+  .bird:hover { transform: translateY(-2px); border-color: var(--gold); }
+  .bird .frame { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--skeleton); }
+  .bird .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .bird .count {
+    position: absolute; right: 10px; bottom: 10px; padding: 4px 9px; border-radius: 999px;
+    background: rgba(16, 22, 19, .72); color: #f6f3ec; font: 500 12px/1.2 "IBM Plex Mono", monospace;
+  }
+  .bird .meta { padding: 14px 16px 16px; }
+  .bird h3 { margin: 0; font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em; }
+  .bird .sci { margin: 2px 0 0; color: var(--muted); font-family: "Fraunces", Georgia, serif; font-style: italic; font-size: 15px; }
+
+  .skeleton .bird { cursor: default; }
+  .skeleton .bird:hover { transform: none; border-color: var(--line); }
+  .bar { height: 12px; border-radius: 6px; background: var(--skeleton); }
+  .notice {
+    margin: 56px 0; padding: 28px; border: 1px dashed var(--line); border-radius: var(--radius);
+    color: var(--muted); text-align: center;
+  }
+  [hidden] { display: none !important; }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 20; display: grid; grid-template-rows: auto 1fr auto;
+    background: rgba(10, 14, 12, .94); color: #ece8df;
+  }
+  .lb-top, .lb-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; }
+  .lb-title { font-family: "Fraunces", Georgia, serif; font-size: 1.25rem; }
+  .lb-title i { color: #9ba79f; font-size: 1rem; margin-left: 8px; }
+  .lb-counter { font: 500 13px/1 "IBM Plex Mono", monospace; color: #9ba79f; }
+  .lb-stage { position: relative; display: grid; place-items: center; min-height: 0; padding: 0 64px; }
+  .lb-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; }
+  .lb-btn {
+    width: 44px; height: 44px; border-radius: 999px; border: 1px solid #2a3530; background: #161e1a;
+    color: #ece8df; font-size: 20px; line-height: 1; cursor: pointer; display: grid; place-items: center;
+  }
+  .lb-btn:hover { border-color: #e9b44c; }
+  .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); }
+  .lb-prev { left: 12px; } .lb-next { right: 12px; }
+  .lb-desc { color: #9ba79f; font-size: 15px; max-width: 70ch; margin: 0; }
+  .lb-strip { display: flex; gap: 6px; overflow-x: auto; padding: 0 20px 16px; justify-content: center; }
+  .lb-strip button { flex: none; width: 64px; height: 48px; padding: 0; border: 2px solid transparent; border-radius: 6px; overflow: hidden; background: #161e1a; cursor: pointer; opacity: .6; }
+  .lb-strip button[aria-current="true"] { border-color: #e9b44c; opacity: 1; }
+  .lb-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 640px) { .lb-stage { padding: 0 8px; } .lb-prev, .lb-next { top: auto; bottom: -56px; transform: none; } }
+
+  footer { margin-top: 72px; padding: 32px 0 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .bird { transition: none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="../index.html" aria-label="Doak Software Development home">
+      <span class="mark" aria-hidden="true">d</span>
+      Doak Software
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li class="menu current">
+          <details>
+            <summary>Projects <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+            <ul class="menu-panel">
+              <li><a href="../birding/index.html" aria-current="page"><span class="menu-title">Birding</span><span class="menu-desc">Bird photography, grouped by family</span></a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <p class="eyebrow">Field notes &middot; Bird photography</p>
+    <h1>Birds I've photographed.</h1>
+    <p class="lede">When I'm not writing code I'm usually out with a camera. This is a running collection of the birds I've photographed, grouped by family.</p>
+    <ul class="stats" id="stats" aria-live="polite" hidden>
+      <li><b id="stat-species">0</b><span>Species</span></li>
+      <li><b id="stat-families">0</b><span>Families</span></li>
+      <li><b id="stat-photos">0</b><span>Photos</span></li>
+    </ul>
+  </div>
+
+  <div class="toolbar" id="toolbar" hidden>
+    <div class="wrap">
+      <input class="search" id="search" type="search" placeholder="Search birds" aria-label="Search birds by name">
+      <div class="chips" id="chips" role="group" aria-label="Filter by family"></div>
+    </div>
+  </div>
+
+  <div class="wrap" id="gallery">
+    <section class="family skeleton" aria-hidden="true">
+      <div class="family-head"><div class="bar" style="width:180px;height:22px"></div></div>
+      <div class="grid">
+        <div class="bird"><div class="frame"></div><div class="meta"><div class="bar" style="width:60%"></div></div></div>
+        <div class="bird"><div class="frame"></div><div class="meta"><div class="bar" style="width:45%"></div></div></div>
+        <div class="bird"><div class="frame"></div><div class="meta"><div class="bar" style="width:55%"></div></div></div>
+      </div>
+    </section>
+  </div>
+  <div class="wrap"><p class="notice" id="empty" hidden>No birds match that search.</p></div>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title" hidden>
+  <div class="lb-top">
+    <div class="lb-title" id="lb-title"></div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <span class="lb-counter" id="lb-counter"></span>
+      <button class="lb-btn" id="lb-close" aria-label="Close">&times;</button>
+    </div>
+  </div>
+  <div class="lb-stage">
+    <img id="lb-img" alt="">
+    <button class="lb-btn lb-prev" id="lb-prev" aria-label="Previous photo">&larr;</button>
+    <button class="lb-btn lb-next" id="lb-next" aria-label="Next photo">&rarr;</button>
+  </div>
+  <div>
+    <div class="lb-bottom"><p class="lb-desc" id="lb-desc"></p></div>
+    <div class="lb-strip" id="lb-strip"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="yr">2026</span> Doak Software Development &middot; Toronto, Ontario</span>
+    <span>Photos &copy; Aaron West</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const API = window.BIRDS_API || "/api/birds";
+
+  // Plain-English names for bird families; anything missing just shows the Latin name.
+  const FAMILY_NAMES = {
+    Accipitridae: "Hawks, eagles & kites", Alcedinidae: "Kingfishers", Anatidae: "Ducks, geese & swans",
+    Apodidae: "Swifts", Ardeidae: "Herons & egrets", Bombycillidae: "Waxwings", Cardinalidae: "Cardinals & grosbeaks",
+    Cathartidae: "New World vultures", Charadriidae: "Plovers", Columbidae: "Pigeons & doves", Corvidae: "Crows & jays",
+    Cuculidae: "Cuckoos", Falconidae: "Falcons & caracaras", Fringillidae: "Finches", Gaviidae: "Loons",
+    Gruidae: "Cranes", Hirundinidae: "Swallows", Icteridae: "Blackbirds & orioles", Laniidae: "Shrikes",
+    Laridae: "Gulls & terns", Mimidae: "Mockingbirds & thrashers", Pandionidae: "Osprey", Paridae: "Chickadees & titmice",
+    Parulidae: "Wood-warblers", Passerellidae: "New World sparrows", Pelecanidae: "Pelicans", Phalacrocoracidae: "Cormorants",
+    Phasianidae: "Pheasants & grouse", Picidae: "Woodpeckers", Podicipedidae: "Grebes", Psittacidae: "Parrots",
+    Rallidae: "Rails & coots", Regulidae: "Kinglets", Scolopacidae: "Sandpipers", Sittidae: "Nuthatches",
+    Strigidae: "Owls", Sturnidae: "Starlings", Threskiornithidae: "Ibises & spoonbills", Trochilidae: "Hummingbirds",
+    Troglodytidae: "Wrens", Turdidae: "Thrushes", Tyrannidae: "Tyrant flycatchers", Vireonidae: "Vireos"
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, props = {}, ...children) => {
+    const node = Object.assign(document.createElement(tag), props);
+    for (const c of children) if (c != null) node.append(c);
+    return node;
+  };
+
+  let families = [];
+  let activeFamily = null;
+
+  async function load() {
+    try {
+      const res = await fetch(API, { headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error(res.status);
+      const data = await res.json();
+      families = data.families || [];
+      if (!families.length) return showNotice("No bird photos have been published yet.");
+      $("stat-species").textContent = data.speciesCount;
+      $("stat-families").textContent = families.length;
+      $("stat-photos").textContent = data.photoCount;
+      $("stats").hidden = false;
+      $("toolbar").hidden = false;
+      renderChips();
+      render();
+      openFromHash();
+    } catch (err) {
+      showNotice("The bird photos couldn't be loaded right now. Please try again in a bit.");
+    }
+  }
+
+  function showNotice(text) {
+    $("gallery").replaceChildren(el("p", { className: "notice", textContent: text }));
+  }
+
+  function renderChips() {
+    const all = el("button", { className: "chip", textContent: "All", type: "button" });
+    all.setAttribute("aria-pressed", "true");
+    all.onclick = () => setFamily(null);
+    const chips = [all, ...families.map((f) => {
+      const b = el("button", { className: "chip", type: "button", textContent: FAMILY_NAMES[f.family] || f.family });
+      b.dataset.family = f.family;
+      b.setAttribute("aria-pressed", "false");
+      b.onclick = () => setFamily(f.family);
+      return b;
+    })];
+    $("chips").replaceChildren(...chips);
+  }
+
+  function setFamily(family) {
+    activeFamily = activeFamily === family ? null : family;
+    for (const chip of $("chips").children) {
+      chip.setAttribute("aria-pressed", String((chip.dataset.family || null) === activeFamily));
+    }
+    render();
+  }
+
+  function render() {
+    const q = $("search").value.trim().toLowerCase();
+    const sections = [];
+    for (const f of families) {
+      if (activeFamily && f.family !== activeFamily) continue;
+      const species = f.species.filter((s) =>
+        !q || s.commonName.toLowerCase().includes(q) || (s.scientificName || "").toLowerCase().includes(q) ||
+        f.family.toLowerCase().includes(q) || (FAMILY_NAMES[f.family] || "").toLowerCase().includes(q));
+      if (!species.length) continue;
+      sections.push(el("section", { className: "family", id: "family-" + f.family.toLowerCase() },
+        el("div", { className: "family-head" },
+          el("h2", { textContent: FAMILY_NAMES[f.family] || f.family }),
+          el("span", { className: "latin", textContent: f.family })),
+        el("div", { className: "grid" }, ...species.map(card))));
+    }
+    $("gallery").replaceChildren(...sections);
+    $("empty").hidden = sections.length > 0;
+  }
+
+  function card(s) {
+    const cover = s.photos[0];
+    const btn = el("button", { className: "bird", type: "button" },
+      el("div", { className: "frame" },
+        el("img", { src: cover.medium, alt: s.commonName, loading: "lazy", decoding: "async" }),
+        s.photos.length > 1 ? el("span", { className: "count", textContent: s.photos.length + " photos" }) : null),
+      el("div", { className: "meta" },
+        el("h3", { textContent: s.commonName }),
+        s.scientificName ? el("p", { className: "sci", textContent: s.scientificName }) : null));
+    btn.setAttribute("aria-label", `${s.commonName}, ${s.photos.length} photo${s.photos.length > 1 ? "s" : ""}`);
+    btn.onclick = () => openLightbox(s, 0, btn);
+    return btn;
+  }
+
+  // Lightbox
+  const lb = { species: null, index: 0, opener: null };
+
+  function openLightbox(species, index, opener) {
+    lb.species = species; lb.opener = opener || null;
+    $("lb-title").replaceChildren(document.createTextNode(species.commonName),
+      species.scientificName ? el("i", { textContent: species.scientificName }) : "");
+    $("lb-desc").textContent = species.description || "";
+    $("lb-strip").replaceChildren(...species.photos.map((p, i) => {
+      const b = el("button", { type: "button" }, el("img", { src: p.thumb, alt: "", loading: "lazy" }));
+      b.setAttribute("aria-label", `Photo ${i + 1}`);
+      b.onclick = () => show(i);
+      return b;
+    }));
+    const multi = species.photos.length > 1;
+    $("lb-prev").hidden = $("lb-next").hidden = $("lb-strip").hidden = !multi;
+    $("lightbox").hidden = false;
+    document.body.style.overflow = "hidden";
+    history.replaceState(null, "", "#" + species.id);
+    show(index);
+    $("lb-close").focus();
+  }
+
+  function show(i) {
+    const photos = lb.species.photos;
+    lb.index = (i + photos.length) % photos.length;
+    const p = photos[lb.index];
+    const img = $("lb-img");
+    img.src = p.large;
+    img.alt = `${lb.species.commonName}, photo ${lb.index + 1} of ${photos.length}`;
+    $("lb-counter").textContent = photos.length > 1 ? `${lb.index + 1} / ${photos.length}` : "";
+    [...$("lb-strip").children].forEach((b, j) => b.setAttribute("aria-current", String(j === lb.index)));
+    $("lb-strip").children[lb.index]?.scrollIntoView({ block: "nearest", inline: "center" });
+    const next = photos[(lb.index + 1) % photos.length];
+    if (next && next !== p) new Image().src = next.large; // preload
+  }
+
+  function closeLightbox() {
+    $("lightbox").hidden = true;
+    $("lb-img").removeAttribute("src");
+    document.body.style.overflow = "";
+    history.replaceState(null, "", location.pathname + location.search);
+    lb.opener?.focus();
+  }
+
+  function openFromHash() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+    for (const f of families) {
+      const s = f.species.find((x) => x.id === id);
+      if (s) return openLightbox(s, 0);
+    }
+  }
+
+  $("lb-close").onclick = closeLightbox;
+  $("lb-prev").onclick = () => show(lb.index - 1);
+  $("lb-next").onclick = () => show(lb.index + 1);
+  $("lightbox").addEventListener("click", (e) => { if (e.target.classList.contains("lb-stage")) closeLightbox(); });
+  document.addEventListener("keydown", (e) => {
+    if ($("lightbox").hidden) return;
+    if (e.key === "Escape") closeLightbox();
+    else if (e.key === "ArrowRight") show(lb.index + 1);
+    else if (e.key === "ArrowLeft") show(lb.index - 1);
+    else if (e.key === "Tab") { // keep focus inside the dialog
+      const focusable = [...$("lightbox").querySelectorAll("button:not([hidden])")].filter((b) => b.offsetParent);
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  let touchX = null;
+  $("lightbox").addEventListener("touchstart", (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+  $("lightbox").addEventListener("touchend", (e) => {
+    if (touchX == null) return;
+    const dx = e.changedTouches[0].clientX - touchX; touchX = null;
+    if (Math.abs(dx) > 50) show(lb.index + (dx < 0 ? 1 : -1));
+  });
+
+  $("search").addEventListener("input", render);
+  $("yr").textContent = new Date().getFullYear();
+  load();
+})();
+</script>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

@@ -1,6 +1,13 @@
 {
+  "platform": {
+    "apiRuntime": "node:20"
+  },
+  "routes": [
+    { "route": "/birding", "rewrite": "/birding/index.html" }
+  ],
   "navigationFallback": {
-    "rewrite": "/index.html"
+    "rewrite": "/index.html",
+    "exclude": ["/api/*", "/Files/*", "/birding/*", "*.{css,js,jpg,jpeg,png,gif,svg,ico,pdf,json}"]
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
